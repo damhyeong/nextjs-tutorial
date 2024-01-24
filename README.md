@@ -1,33 +1,7 @@
-# `Must Read This`
-
-### * You can access each other `Official Result` of End of Chapter.
-
-### * Tutorial Recommend using `Tailwind` but,  I'll using `module.scss` for my Skill.
-
-### * Basic Route `/` setting In my Project, I'll Make Project `url`
-> // You can see `Result` of Chapter Reuslt by `/chapter${numberOfChapter}`
-> > `Example` : <b>Accesing</b> "/chapter1" <b>or</b> "/chapter2"  etc...
-
-
-## Getting Started Search Result of Tutorial 
-
-Open [nextjs-tutorial-gdh.vercel.app](https://nextjs-tutorial-gdh.vercel.app) with your browser to see the result.
-   
-And Each `/chapter${number}` Route will be Dispay How Tutorial Shows Result.
-
-
-## What is Purpose to Make this Project?
-
-### 1. Improve English Skills.
-
-### 2. Learn About `Next.js` Based on `React`
+# 공식문서 영어 해석을 위한 블로그 제작.
 
 ---
 
-## `Caution`
+> * 추후 공식 문서 해석이 완료 될 시, `Markdown` 파일을 블로그 형식으로 보여줄 예정입니다.
+> * 또 다른 분이 오셔서 공식 문서에 대한 내용을 빠르게 훑어 이해하기 위한 블로그를 제작 할 예정입니다.
 
----
-
-#### Official Tutorial Using `[Tailwind-CSS]` But I will Using `.module.scss` Or `Styled-Component`.
-
----
