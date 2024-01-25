@@ -1,3 +1,9 @@
+---
+title : "Installation"
+date : "2024-01-25"
+
+---
+
 # Installation 
 
 밑의 시스템 요구사항이 필요합니다.
