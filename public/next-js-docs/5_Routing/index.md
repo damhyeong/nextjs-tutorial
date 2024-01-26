@@ -128,14 +128,130 @@ Next.js는 UI를 만들기 위한 특별한 파일들을 제공합니다.
 
 이 파일은 중첩된 라우트에서 해야 할 세부적인 행동 양식을 제공합니다.
 
-|                | |
-|----------------| - |
-| `layout`       | |
-| `page`         | |
-| `loading`      | |
-| `not-found`    | |
-| `error`        | |
-| `global-error` | |
-| `route`        | |
-| `template`     | |
-| `default`      | |
+|                |                                                                  |
+|----------------|------------------------------------------------------------------|
+| `layout`       | 해당 세그먼트와 그 폴더 내부 파일들을 위한 공유 UI <br> : `Header`, `SideMenu` 같은 기능 |
+| `page`         | 해당 라우트의 UI이며, 공개적으로 접근 가능하게 만들어 준다.                              |
+| `loading`      | 해당 세그먼트와 그 폴더 내부 파일들을 위한 로딩 UI                                   |
+| `not-found`    | 해당 세그먼트와 그 폴더 내부 파일들을 위한 `Not Found` UI                          |
+| `error`        | 해당 세그먼트와 그 폴더 내부 파일들을 위한 `Error` UI                              |
+| `global-error` | 전역적인 `Error` UI                                                  |
+| `route`        | 서버 사이드 `API Endpoint`                                            |
+| `template`     | 리 렌더링에 전문화 된 `Layout` UI                                         |
+| `default`      | 병렬 라우트를 위한 `Fallback` UI                                         |
+
+---
+
+<br>
+
+### 컴포넌트 계층도
+
+라우트 세그먼트의 특수 파일들로 정의된 리액트 컴포넌트는 세부적인 계층도 내부에서 렌더링됩니다.
+> 자연스럽게 직역을 못 했지만, 밑의 내용을 보면 이해될 예정...
+
+* `layout.js`
+* `template.js`
+* `error.js` : (React error boundary)
+* `loading.js` : (React suspense boundary)
+* `not-found.js` : (React error boundary)
+* `page.js` or 중첩된 `layout.js`
+
+```
+layout.js
+template.js
+error.js
+loading.js
+not-found.js
+page.js
+```
+
+```tsx
+
+// Component Hierarchy
+<Layout> // A
+    <Template>
+        <ErrorBoundary fallback={<Error/>}>
+            <Suspense fallback={<Loading/>}>
+                <ErrorBoundary fallback={<NotFound />}>
+                    <Page/>
+                </ErrorBoundary>
+            </Suspense>
+        </ErrorBoundary>
+    </Template>
+</Layout>
+```
+
+<br>
+
+중첩 라우터에서, 한 세그먼트의 컴포넌트는 부모 세그먼트에 의해 또다시 중첩됩니다.
+
+**예시** : 
+
+```
+/** 폴더 구조 예시 */
+
+/dashboard ==> A
+    /layout.js
+    /error.js
+    /loading.js
+    
+    /settings ==> B
+        /layout.js
+        /error.js
+        /loading.js
+        /page.js
+```
+하나의 세그먼트를 의미하는 위 폴더 내부의 파일들은, 이런 컴포넌트 계층도를 보입니다.
+
+```tsx
+
+// Component Hierarchy
+<Layout> // A
+    <ErrorBoundary fallback={<Error/>}>
+        <Suspense fallback={<Loading/>}>
+            
+            <Layout> // B
+                <ErrorBoundary fallback={<Error/>}>
+                    <Suspense fallback={<Loading/>}>
+                        <Page/>
+                    </Suspense>
+                </ErrorBoundary>
+            </Layout>
+            
+        </Suspense>
+    </ErrorBoundary>
+</Layout>
+```
+
+---
+
+<br>
+
+### 동일 위치 배치
+
+위와 같은 특수 파일 외에도, 스스로 제작한 파일들을 같이 배치 할 수 있습니다.
+
+예시 : `components`, `styles`, `tests`, etc...
+
+<br>
+
+이게 가능한 이유는, 라우트가 폴더로 결정됨에도 불구하고 
+
+`page.js` 혹은 `route.js` 만이 공개적으로 접근 가능한 콘텐츠로 돌아오기 때문입니다.
+
+```text
+/app
+    /components
+        /button.js      --> (/components/button) [X] Not Routable
+        
+    /lib
+        /constants.js   --> (/lib/constants) [X] Not Routable
+        
+    /dashboard
+        /page.js        --> (/dashboard) [O] Routable
+        /nav.js         --> (/dashboard/nav) [X] Not Routable
+        
+    /api
+        /route.js       --> (/api) [O] Routable
+        /db.js          --> (/api/db) [X] Not Routable
+```
