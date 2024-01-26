@@ -92,6 +92,50 @@ pages
 
 **Next.js는 `파일 시스템` 기반의 라우터를 사용합니다. `:`**
 
-* **폴더**는 주로 라우티를 결정하는 데 쓰입니다.
+* **폴더**는 주로 라우티를 결정하는 데 쓰입니다. 하나의 라우트는 중첩된 폴더의 하나의 경로입니다.
+* **파일** 은 해당 라우트에서 보여지기 위한 UI를 제작하는 데 쓰입니다.
 
-[이어서 작성 할 페이지](https://nextjs.org/docs/app/building-your-application/routing)
+**예시** :
+
+```
+app                 --> Root Segment
+    /dashboard      --> Segment
+        /settings   --> Leaf Segment
+```
+> acme.com / `dashboard` / `settings`
+
+---
+
+### 중첩된 라우트들
+
+중첩된 라우트를 만들기 위해서, 각 내부에 폴더를 중첩할 수 있습니다.
+
+예를 들어, 새로운 `/dashboard/settings` 라우트를 `app` 폴더에 똑같은 형식으로 폴더를 생성 함으로서 새로운 라우트를 생성 할 수 있습니다.
+
+<br>
+
+`/dashboard/settings` 라우트는 세 개의 세그먼트로 이루어져 있습니다.
+
+* `/` (최상위 세그먼트 : `Root`)
+* `dashboard` (세그먼트)
+* `settings` (마지막 세그먼트 : `Leaf`)
+
+---
+
+### 파일 규칙들
+
+Next.js는 UI를 만들기 위한 특별한 파일들을 제공합니다.
+
+이 파일은 중첩된 라우트에서 해야 할 세부적인 행동 양식을 제공합니다.
+
+|                | |
+|----------------| - |
+| `layout`       | |
+| `page`         | |
+| `loading`      | |
+| `not-found`    | |
+| `error`        | |
+| `global-error` | |
+| `route`        | |
+| `template`     | |
+| `default`      | |
